@@ -46,12 +46,13 @@ class imitation_dataset(Dataset):
         for traj in trajs:
             #reward = 0
             for s_id, sample in enumerate(traj):
-                if not from_file:
-                    s, a = sample
-                    if type=="state":
-                        self.data.append([s, a])
-                    else:
-                        self.data.append([s, a[0]])
+                if type=="state":
+                    x, y = sample
+                    if len(x.shape) > 1:
+                        x = x[0]
+                    if len(y.shape) > 1:
+                        y = y[0]
+                    self.data.append([x, y])
                 else:
                     s = sample['observation']
                     a = sample['action']
